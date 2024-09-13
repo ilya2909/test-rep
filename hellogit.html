@@ -1,0 +1,42 @@
+<div class="s-prose js-post-body" itemprop="text">
+                
+<p>I need to work with an intricate configuration of repositories. I have 5 of them:</p>
+<ol>
+<li>A remote central repository on machine 1.</li>
+<li>My local repository on my notebook (machine 2).</li>
+<li>A bare repository on machine 3.</li>
+<li>A repository on machine 3.</li>
+<li>A repository on machine 4 where we do code review.</li>
+</ol>
+<p>So, my understanding that it works this way:</p>
+<ol>
+<li>On my laptop (machine 2) I clone / pull from the central repository located on machine 1.</li>
+<li>I push the local repo to the machine 3 (using the bare repository as a "intermediate").</li>
+</ol>
+<p>Now I did some changes on the machine 3 and I want to push these changes to machine 4. Here are the instructions that I need to follow:</p>
+<ol>
+<li>On machine 3 do all work in your test-branch, commit.</li>
+<li>Push to your bare repo on machine 3: git push origin test-branch</li>
+<li>On your laptop: fetch new commits from the machine-3 repo: git fetch machine3</li>
+<li>Check out your branch from machine 3: git checkout -b test-branch machine-3/test-branch</li>
+<li>Fetch commits from machine-4: git fetch origin</li>
+<li>git rebase origin/master</li>
+<li>git push origin HEAD:refs/for/master</li>
+</ol>
+<p>I have problems with step 4. I get the following error:</p>
+<blockquote>
+<p>fatal: 'machine3/test-branch' is not a commit and a branch 'test-branch' cannot be created from it</p>
+</blockquote>
+<p><strong>ADDED</strong></p>
+<p>When I execute</p>
+<pre><code>git rev-parse machine3/test-branch
+</code></pre>
+<p>On my laptop (machine 2) I get:</p>
+<blockquote>
+<p>machine3/test-branch</p>
+<p>fatal: ambiguous argument 'machine3/test-branch': unknown revision or path not in the working tree.</p>
+<pre><code>Use '--' to separate paths from revisions, like this:
+'git &lt;command&gt; [&lt;revision&gt;...] -- [&lt;file&gt;...]'
+</code></pre>
+</blockquote>
+    </div>
